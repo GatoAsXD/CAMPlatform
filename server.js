@@ -1,26 +1,28 @@
+require("dotenv").config()
+
 const bodyParser = require("body-parser")
 const path = require("path")
 const express = require("express")
 const session = require("express-session")
 const passport = require("passport")
-const dotenv = require("dotenv")
-const https = require("https")
+const mongoose = require("mongoose")
+const mongoStore = require("connect-mongo")
 
-const {google} = require('googleapis');
-const { hostname } = require("os")
-const classroom = google.classroom('v1');
-
-const app = express()
-const SQLiteStore = require('connect-sqlite3')(session);
-dotenv.config()
-
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-var userProfile;
-var userAccessToken;
 
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 const REDIRECT_URL = process.env.REDIRECT_URL
+const uri = process.env.URI
+
+const app = express()
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+mongoose.connect(uri, {}).catch(err => console.log(err))
+
+
+const db = mongoose.connection
+db.once("open", _ => {
+    console.log("Database connected")
+})
 
 app.set('port', process.env.PORT);
 app.set('views', path.join(__dirname, 'views'))
@@ -31,9 +33,10 @@ app.use(session({
     secret: [process.env.SECRET],
     resave: false,
     saveUninitialized: false,
-    //store: new SQLiteStore({db: 'sessions.db', dir: './var/db'})
+    store: mongoStore.create({ client: db.getClient(), touchAfter: 24*3600 })
 }))
 
+const requests = require("./controllers/requests")
 
 app.use(express.static(path.join(__dirname, 'public/css')))
 app.use(express.static(path.join(__dirname, 'public/js')))
@@ -49,32 +52,7 @@ app.get('/', (req, res) => {
 
 app.get('/success', (req, res) => {
     res.render('success.ejs')
-    const options = {
-        hostname: 'classroom.googleapis.com',
-        port: 443,
-        path: '/v1/courses',
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${userAccessToken}`
-        }
-    }
-    const requ = https.request(options, resp => {
-        let data = '';
-
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        resp.on('end', () => {
-            console.log(data);
-        });
-    })
-      
-    requ.on('error', error => {
-        console.error(`Error on Get Request --> ${error}`)
-    })
-      
-    requ.end()
+    requests.reqAll(req, res)
 })
 
 app.get('error', (req, res) => res.send("error logging in"))
@@ -93,12 +71,14 @@ passport.use(new GoogleStrategy(
     {
         clientID: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
-        callbackURL: REDIRECT_URL
+        callbackURL: REDIRECT_URL,
     },
     function(accessToken, refreshToken, profile, done) {
-        userProfile=profile
-        userAccessToken=accessToken
-        return done(null, userProfile)
+        user = {
+            profile,
+            accessToken
+        }
+        return done(null, user)
     }
 ))
 
