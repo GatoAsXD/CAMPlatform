@@ -1,121 +1,46 @@
-const https = require('https')
+const {Options, Class, Student, request, userExists, parseClassInstance, parseStudentInstance} = require("../util")
+const model = require('../models/userData')
 
 module.exports = {
     reqAll: async function(req, res){
-        var accessToken = req.session.passport.user.accessToken
+        const user = req.session.passport.user
+        var accessToken = user.accessToken
+        
         if(!accessToken) return
 
-        class Options {
-            hostname = 'classroom.googleapis.com'
-            method = 'GET'
+        if(!(await userExists(user.profile.id))){
+            const createUser = new model({
+                userId: user.profile.id,
+                name: user.profile.displayName
+            })
+            await createUser.save()
 
-            constructor(path = '', port = 443) {
-                this.path = `/v1/courses/${path}`
-                this.port = port
-                this.headers = {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            }
-        }
+            const optionsAll = new Options(accessToken)
 
-        class Student {
-            #oldGrades = {}
-            #grades = {}
-            aleksCompliance = false
-            homeworkCompliance = false
-            revisados = 0
+            request(optionsAll)
+                .then(data => {
 
-            constructor(id, name) {
-                this.id = id
-                this.name = name
-            }
+                    data.courses.forEach(element => {
+                        var [grade, section] = element.name.split(" ")
 
-            getGrades() {
-                return this.#grades
-            }
+                        userClass = new Class(element.id, grade, section)
 
-            getOldGrades() {
-                return this.#oldGrades
-            }
+                        request(new Options(accessToken, `${element.id}/students`)).then(async students => {
+                            students.students.forEach(e => {
+                                userClass.addStudent(new Student(e.userId, e.profile.name.fullName))
+                            })
+                            var dbUser = await model.findOne({userId: user.profile.id})
+                            dbUser.classes.push(parseClassInstance(userClass))
 
-            getGrade(standard) {
-                return this.#grades[standard]
-            }
-
-            setGrade(standard, value) {
-                if(this.#grades[standard]) this.#oldGrades[standard] = this.#grades[standard]
-                this.#grades[standard] = value
-            }
-
-        }
-
-        class Class {
-            #students = {}
-
-            constructor(id, grade, section) {
-                this.classID = id
-                this.grade = grade
-                this.section = section
-            }
-
-            getStudents() {
-                var students = []
-                for (const [key, value] of Object.entries(this.#students)) {
-                    students.push(value)
-                }
-                return students
-            }
-
-            getStudent(studentName) {
-                return this.#students[studentName]
-            }
-
-            addStudent(student) {
-                this.#students[student.name] = student
-            }
-        }
-
-        const request = (options) => new Promise ((resolve, reject) => {
-            https.request(options, resp => {
-                let data = '';
-    
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
-        
-                resp.on('end', async () => {
-                    parsedData = JSON.parse(data)
-                    resolve(parsedData)
-                });
-
-                resp.on('error', error => {
-                    reject(error)
-                })
-            }).end()
-            
-        })
-        
-        const optionsAll = new Options()
-
-        request(optionsAll)
-            .then(data => {
-
-                data.courses.forEach(element => {
-                    var [grade, section] = element.name.split(" ")
-
-                    var classe = new Class(element.id, grade, section)
-
-                    request(new Options(`${element.id}/students`)).then(students => {
-                        students.students.forEach(e => {
-                            classe.addStudent(new Student(e.userId, e.profile.name.fullName))
+                            await model.findOneAndUpdate({userId: user.profile.id},{classes: dbUser.classes})
                         })
-                    })
-                });
-            })
-            .catch(err => {
-                console.error(`Error on Get Request --> ${err}`)
-            })
-        
+                    });
+                })
+                .catch(err => {
+                    console.error(`Error on Get Request --> ${err}`)
+                })
+
+        }
 
     }
 }

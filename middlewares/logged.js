@@ -1,8 +1,5 @@
-module.exports = async function(req, res, next){
-    if(!req.session.userProfile) {
-      app.locals.userProfile = null
-      return next()
-    }
+module.exports = function(req, res, next){
+    if(!req.session.passport) return res.redirect('/login')
     
     next()
-  }
+}
