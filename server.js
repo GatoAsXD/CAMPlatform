@@ -101,15 +101,46 @@ app.get('/classes', (req, res) => {
     res.render('classes.ejs')
 })
 
-app.get('/classes/:id', (req, res) => {
+app.get('/classes/:id', async (req, res) => {
+    
+    res.locals.route = `/classes/${req.params.id}/edit`
+    for (let i = 0; i < res.locals.userClasses.length; i++) {
+        const e = res.locals.userClasses[i];
+
+        if(e.classID == req.params.id){
+            res.locals.userClassName = e.grade+" "+e.section
+            
+            requests.reqHomework(req, e).then(async ()=>{
+                let userData = JSON.parse(JSON.stringify(await model.findOne({userId: req.session.passport.user.profile.id}))).classes
+                for (let index = 0; index < e.students.length; index++) {
+                    const element = e.students[index];
+                    userData[i].students[index].homeworkCompliance = e.grades[element.id].every(val => val === true)
+                }
+                await model.findOneAndUpdate({userId: req.session.passport.user.profile.id},{classes: userData})
+            })
+            
+            const findUser = await model.findOne({userId: req.session.passport.user.profile.id})
+
+            res.locals.userClass = findUser.classes[i]
+
+            res.render("class.ejs")
+        }
+        
+    }
+
+    //console.log(res.locals.userClass.getStudents())
+})
+app.get('/classes/:id/edit', (req, res) => {
     
     res.locals.userClasses.forEach(e => {
          if(e.classID == req.params.id){
             res.locals.userClass = e
+            requests.reqHomework(req, e)
          }
     });
+
     //console.log(res.locals.userClass.getStudents())
-    res.render("class.ejs")
+    res.render("edit.ejs")
 })
 
 

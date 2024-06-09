@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= userClassName %></title>
+    <link href="../style.css" rel="stylesheet" type="text/css" />
+    <link href="../normalize.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+
+<body class="body2">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <img src='../cam.png' alt='cam.img' width='350'>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/classes">
+                            <div class="icons">
+                                <i class="fa-solid fa-house"></i>
+                        </a>
+            </div>
+            </li>
+    </nav>
+
+    <!-- Contenedor de los gráficos y elementos -->
+    <div class="container1 my-4">
+        <div class="row">
+            <!-- Gráfico 1 -->
+            <div class="col-md-6 mb-4">
+                <div class="grafico1">
+                    <canvas id='myChart'></canvas>
+                    <script>
+                        const xValues = ["Aleks", "Classrom", "Revisados", "Notas"];
+                        const yValues = [55, 49, 44, 24];
+                        const barColors = ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9"];
+                        new Chart("myChart", {
+                            type: "pie",
+                            data: {
+                                labels: xValues,
+                                datasets: [{
+                                    backgroundColor: barColors,
+                                    data: yValues
+                                }]
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    text: "Aleks"
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <!-- Gráfico 2 -->
+            <div class="col-md-6 mb-4">
+                <div class="grafico2">
+                    <canvas id="Barras"></canvas>
+                    <script>
+                        var ctx = document.getElementById('Barras').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['C1', 'C2', 'C33', 'C4'],
+                                datasets: [
+                                    {
+                                        label: 'Anterior',
+                                        data: [12, 19, 3, 5,],
+                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Actual',
+                                        data: [22, 29, 5, 5,],
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de alumnos -->
+        <div class="container2">
+
+            <!-- Botón de editar -->
+            <div class="d-flex justify-content-center">
+                <button onclick="window.location='<%= route %>'" class="EDITAR">
+                    <strong>
+                        EDITAR
+                    </strong>
+                </button>
+            </div>
+            <h1 class="LIST">ALUMNOS</h1>
+            <h3 class="LIST">Tutoreados</h3>
+            <details class="criterios">
+                <summary class="LIST1">
+                    <h5>➤ Ronal Dominguez</h5>
+                    <div class="Contenedor-3">
+                        <div class="Datos-Principal">
+                            <h5 class="label">Aleks</h5>
+                            <input type="checkbox" class="custom-checkbox" disabled>
+                        </div>
+                        <div class="Datos-Principal">
+                            <h5 class="label">Classroom</h5>
+                            <input type="checkbox" class="custom-checkbox" disabled>
+                        </div>
+                        <div class="Datos-Principal">
+                            <h5 class="label">Revisados</h5>
+                            <div class="DATOS1">Dato</div>
+                        </div>
+                    </div>
+                </summary>
+                <div class="flex-container">
+                    <div class="mini-container">
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C1</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0">Dato</div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0">Dato</div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C2</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0">Dato</div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0">Dato</div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C3</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0">Dato</div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0">Dato</div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C4</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0">Dato</div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0">Dato</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+
+
+
+        <script src="script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+
+</body>
+
+</html>

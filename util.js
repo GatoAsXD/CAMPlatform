@@ -59,6 +59,7 @@ class Student {
 
 class Class {
     #students = {}
+    grades = {}
 
     constructor(id, grade, section) {
         this.classID = id

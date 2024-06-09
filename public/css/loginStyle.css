@@ -1,0 +1,86 @@
+html {
+    height: 100%;
+    width: 100%;
+  }
+  
+  
+  
+  .formulario h1{
+    left: 100px;
+    text-align: center;
+    width: 80%;
+    padding: 15px;
+    background: #FFF8F1 ;
+    border-radius: 10px;
+    font-size: 18.5px;
+    color: #37474F;
+    cursor: none;
+    outline: none;
+    margin: 25px;
+    border: 3.5px solid #FFCA28;
+  }
+  
+  
+  body {
+    font-family: 'Josefin Sans', sans-serif;
+    background: linear-gradient(to right, #F39C12, #F9E79F);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  
+  .formulario {
+    width: 400px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    
+  }
+  
+  .formulario img {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+  
+  .formulario h1 {
+    font-size: 24px;
+    color: #37474F;
+    margin-bottom: 20px;
+  }
+  
+  .icons {
+    margin-top: 20px;
+  }
+  
+  .google-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #FBC02D;
+    background: #FBC02D;
+    border-radius: 25px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+    outline: none;
+  }
+  
+  .google-login i {
+    margin-right: 10px;
+  }
+  
+  .google-login:hover {
+    background-color: #F9A825;
+  }
+  
+  .google-login:focus {
+    outline: none;
+  }
