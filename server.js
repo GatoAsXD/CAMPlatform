@@ -38,7 +38,7 @@ app.use(session({
     secret: [process.env.SECRET],
     resave: false,
     saveUninitialized: false,
-    store: mongoStore.create({ client: db.getClient(), touchAfter: 24*3600 })
+    store: mongoStore.create({ client: db.getClient(), touchAfter: 2*3600 })
 }))
 
 
@@ -98,6 +98,24 @@ app.get('/clases', (req, res) => {
 })
 
 app.get('/classes', (req, res) => {
+    let userGrades = []
+    let userClasses = {}
+    let userClassesId = {}
+    
+    for (let i = 0; i < res.locals.userClasses.length; i++) {
+        const e = res.locals.userClasses[i];
+        if(!userGrades.includes(e.grade)) {
+            userGrades.push(e.grade)
+            userClasses[e.grade] = []
+            userClassesId[e.grade] = []
+        }
+
+        userClasses[e.grade].push(e.grade+" "+e.section)
+        userClassesId[e.grade].push(e.classID)
+    }
+    res.locals.userGrades = userGrades
+    res.locals.userClassList = userClasses
+    res.locals.userClassId = userClassesId
     res.render('classes.ejs')
 })
 
@@ -123,24 +141,87 @@ app.get('/classes/:id', async (req, res) => {
 
             res.locals.userClass = findUser.classes[i]
 
+            let studentList = {
+                student: findUser.classes[i].students.filter(el => {return el.role == "student"}),
+                tutor: findUser.classes[i].students.filter(el => {return el.role == "tutor"}),
+                tutoreado: findUser.classes[i].students.filter(el => {return el.role == "tutoreado"})
+            }
+            
+            res.locals.studentList = studentList
             res.render("class.ejs")
         }
         
     }
-
-    //console.log(res.locals.userClass.getStudents())
 })
 app.get('/classes/:id/edit', (req, res) => {
     
     res.locals.userClasses.forEach(e => {
          if(e.classID == req.params.id){
             res.locals.userClass = e
-            requests.reqHomework(req, e)
+            res.locals.userClassName = e.grade+" "+e.section+" - Editar datos"
+
+            let studentList = {
+                student: e.students.filter(el => {return el.role == "student"}),
+                tutor: e.students.filter(el => {return el.role == "tutor"}),
+                tutoreado: e.students.filter(el => {return el.role == "tutoreado"})
+            }
+            
+            res.locals.studentList = studentList
+            res.locals.route = `/classes/${req.params.id}/save`
+
+            res.render("edit.ejs")
          }
     });
+})
+app.post('/classes/:id/save', async (req, res) => {
+    let students = []
+    let studentData = {}
+    for (const [key, value] of Object.entries(req.body)) {
+        const studentId = key.split("-")[0]
+        const studentParam = key.split("-")[1]
+        if(!students.includes(studentId)){
+            students.push(studentId)
+            studentData[studentId] = {
+                c1: "",
+                c2: "",
+                c3: "",
+                c4: "",
+                role: "",
+                revisados: "",
+                compliance: false
+            }
+        }
+        if(studentParam != "compliance") studentData[studentId][studentParam] = value
+        else studentData[studentId][studentParam] = true
+    }
+    let userData = JSON.parse(JSON.stringify(await model.findOne({userId: req.session.passport.user.profile.id}))).classes
+    let classIndex;
 
-    //console.log(res.locals.userClass.getStudents())
-    res.render("edit.ejs")
+    for (let index = 0; index < userData.length; index++) {
+        const element = userData[index];
+        if(element.classID == req.params.id) classIndex = index
+    }
+
+    for (let ind = 0; ind < students.length; ind++) {
+        //const element = students[index];
+        const index = students[ind]
+        let studentRole
+        if(studentData[index].role.toLowerCase()=="alumno") studentRole = "student"
+        if(studentData[index].role.toLowerCase()=="tutor") studentRole = "tutor"
+        if(studentData[index].role.toLowerCase()=="tutoreado") studentRole = "tutoreado"
+
+        userData[classIndex].students[ind].aleksCompliance = studentData[index].compliance
+        userData[classIndex].students[ind].revisados = studentData[index].revisados
+        userData[classIndex].students[ind].role = studentRole
+        userData[classIndex].students[ind].grades.c1 = studentData[index].c1
+        userData[classIndex].students[ind].grades.c2 = studentData[index].c2
+        userData[classIndex].students[ind].grades.c3 = studentData[index].c3
+        userData[classIndex].students[ind].grades.c4 = studentData[index].c4
+    }
+    await model.findOneAndUpdate({userId: req.session.passport.user.profile.id},{classes: userData})
+
+    console.log(studentData)
+    res.redirect(`/classes/${req.params.id}`)
 })
 
 

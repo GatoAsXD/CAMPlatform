@@ -15,8 +15,18 @@ class Options {
 }
 
 class Student {
-    #oldGrades = {}
-    #grades = {}
+    #oldGrades = {
+        c1: "",
+        c2: "",
+        c3: "",
+        c4: ""
+    }
+    #grades = {
+        c1: "",
+        c2: "",
+        c3: "",
+        c4: ""
+    }
     aleksCompliance = false
     homeworkCompliance = false
     role = "student"
@@ -117,7 +127,7 @@ async function userExists (userId) {
 }
 
 function parseStudentInstance (studentInstance) {
-    let studentObject = studentInstance
+    let studentObject = Object.fromEntries(Object.entries(studentInstance))
     studentObject.grades = studentInstance.getGrades()
     studentObject.oldGrades = studentInstance.getOldGrades()
 

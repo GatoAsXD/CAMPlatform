@@ -124,21 +124,22 @@
             </div>
             <h1 class="LIST">ALUMNOS</h1>
             <h3 class="LIST">Tutoreados</h3>
+            <% for (let i = 0; i < studentList.tutoreado.length; i++) { const e = studentList.tutoreado[i] %>
             <details class="criterios">
                 <summary class="LIST1">
-                    <h5>➤ Ronal Dominguez</h5>
+                    <h5>➤ <%= e.name %></h5>
                     <div class="Contenedor-3">
                         <div class="Datos-Principal">
                             <h5 class="label">Aleks</h5>
-                            <input type="checkbox" class="custom-checkbox" disabled>
+                            <input type="checkbox" class="custom-checkbox" value="<%= e.aleksCompliance %>">
                         </div>
                         <div class="Datos-Principal">
                             <h5 class="label">Classroom</h5>
-                            <input type="checkbox" class="custom-checkbox" disabled>
+                            <input type="checkbox" class="custom-checkbox" value="<%= e.homeworkCompliance %>">
                         </div>
                         <div class="Datos-Principal">
                             <h5 class="label">Revisados</h5>
-                            <div class="DATOS1">Dato</div>
+                            <div class="DATOS1"><%= e.revisados %></div>
                         </div>
                     </div>
                 </summary>
@@ -147,44 +148,164 @@
                         <div class="criterio-Principal">
                             <h3 class="criterios-label">C1</h3>
                             <div class="criterios-datos">
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[0]:'' %></div>
                                 <div class="flecha">➫</div>
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.grades?e.grades[0]:'' %></div>
                             </div>
                         </div>
                         <div class="criterio-Principal">
                             <h3 class="criterios-label">C2</h3>
                             <div class="criterios-datos">
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[1]:'' %></div>
                                 <div class="flecha">➫</div>
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.grades?e.grades[1]:'' %></div>
                             </div>
                         </div>
                         <div class="criterio-Principal">
                             <h3 class="criterios-label">C3</h3>
                             <div class="criterios-datos">
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[2]:'' %></div>
                                 <div class="flecha">➫</div>
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.grades?e.grades[2]:'' %></div>
                             </div>
                         </div>
                         <div class="criterio-Principal">
                             <h3 class="criterios-label">C4</h3>
                             <div class="criterios-datos">
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[3]:'' %></div>
                                 <div class="flecha">➫</div>
-                                <div class="DATO0">Dato</div>
+                                <div class="DATO0"><%= e.grades?e.grades[3]:'' %></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </details>
+            <% } %>
+            <h3 class="LIST">Alumnos</h3>
+            <% for (let i = 0; i < studentList.student.length; i++) { const e = studentList.student[i] %>
+            <details class="criterios">
+                <summary class="LIST1">
+                    <h5>➤ <%= e.name %></h5>
+                    <div class="Contenedor-3">
+                        <div class="Datos-Principal">
+                            <h5 class="label">Aleks</h5>
+                            <input type="checkbox" class="custom-checkbox" value="<%= e.aleksCompliance %>">
+                        </div>
+                        <div class="Datos-Principal">
+                            <h5 class="label">Classroom</h5>
+                            <input type="checkbox" class="custom-checkbox" value="<%= e.homeworkCompliance %>">
+                        </div>
+                        <div class="Datos-Principal">
+                            <h5 class="label">Revisados</h5>
+                            <div class="DATOS1"><%= e.revisados %></div>
+                        </div>
+                    </div>
+                </summary>
+                <div class="flex-container">
+                    <div class="mini-container">
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C1</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[0]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[0]:'' %></div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C2</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[1]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[1]:'' %></div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C3</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[2]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[2]:'' %></div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C4</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[3]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[3]:'' %></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+            <% } %>
+            <h3 class="LIST">Tutores</h3>
+            <% for (let i = 0; i < studentList.tutor.length; i++) { const e = studentList.tutor[i] %>
+            <details class="criterios">
+                <summary class="LIST1">
+                    <h5>➤ <%= e.name %></h5>
+                    <div class="Contenedor-3">
+                        <div class="Datos-Principal">
+                            <h5 class="label">Aleks</h5>
+                            <input type="checkbox" class="custom-checkbox" value="<%= e.aleksCompliance %>">
+                        </div>
+                        <div class="Datos-Principal">
+                            <h5 class="label">Classroom</h5>
+                            <input type="checkbox" class="custom-checkbox" value="<%= e.homeworkCompliance %>">
+                        </div>
+                        <div class="Datos-Principal">
+                            <h5 class="label">Revisados</h5>
+                            <div class="DATOS1"><%= e.revisados %></div>
+                        </div>
+                    </div>
+                </summary>
+                <div class="flex-container">
+                    <div class="mini-container">
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C1</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[0]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[0]:'' %></div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C2</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[1]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[1]:'' %></div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C3</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[2]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[2]:'' %></div>
+                            </div>
+                        </div>
+                        <div class="criterio-Principal">
+                            <h3 class="criterios-label">C4</h3>
+                            <div class="criterios-datos">
+                                <div class="DATO0"><%= e.oldGrades?e.oldGrades[3]:'' %></div>
+                                <div class="flecha">➫</div>
+                                <div class="DATO0"><%= e.grades?e.grades[3]:'' %></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+            <% } %>
         </div>
 
-
-
-
-        <script src="script.js"></script>
+        <script defer>
+            const inputs = document.getElementsByClassName("custom-checkbox")
+            for (let index = 0; index < inputs.length; index++) {
+                const element = inputs[index];
+                if(element.value == "true") element.checked = true
+            }
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
