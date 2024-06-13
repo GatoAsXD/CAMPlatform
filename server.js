@@ -175,7 +175,9 @@ app.get('/classes/:id/edit', (req, res) => {
 })
 app.post('/classes/:id/save', async (req, res) => {
     let students = []
+    let studentOrder = []
     let studentData = {}
+
     for (const [key, value] of Object.entries(req.body)) {
         const studentId = key.split("-")[0]
         const studentParam = key.split("-")[1]
@@ -202,9 +204,15 @@ app.post('/classes/:id/save', async (req, res) => {
         if(element.classID == req.params.id) classIndex = index
     }
 
-    for (let ind = 0; ind < students.length; ind++) {
+    for (let index = 0; index < students.length; index++) {
+        studentOrder.push(userData[classIndex].students[index].id)
+    }
+
+    for (let inde = 0; inde < students.length; inde++) {
         //const element = students[index];
-        const index = students[ind]
+        const index = students[inde]
+        const ind = studentOrder.indexOf(index)
+        
         let studentRole
         if(studentData[index].role.toLowerCase()=="alumno") studentRole = "student"
         if(studentData[index].role.toLowerCase()=="tutor") studentRole = "tutor"
@@ -213,6 +221,10 @@ app.post('/classes/:id/save', async (req, res) => {
         userData[classIndex].students[ind].aleksCompliance = studentData[index].compliance
         userData[classIndex].students[ind].revisados = studentData[index].revisados
         userData[classIndex].students[ind].role = studentRole
+        userData[classIndex].students[ind].oldGrades.c1 = userData[classIndex].students[ind].grades.c1
+        userData[classIndex].students[ind].oldGrades.c2 = userData[classIndex].students[ind].grades.c2
+        userData[classIndex].students[ind].oldGrades.c3 = userData[classIndex].students[ind].grades.c3
+        userData[classIndex].students[ind].oldGrades.c4 = userData[classIndex].students[ind].grades.c4
         userData[classIndex].students[ind].grades.c1 = studentData[index].c1
         userData[classIndex].students[ind].grades.c2 = studentData[index].c2
         userData[classIndex].students[ind].grades.c3 = studentData[index].c3
@@ -220,7 +232,6 @@ app.post('/classes/:id/save', async (req, res) => {
     }
     await model.findOneAndUpdate({userId: req.session.passport.user.profile.id},{classes: userData})
 
-    console.log(studentData)
     res.redirect(`/classes/${req.params.id}`)
 })
 

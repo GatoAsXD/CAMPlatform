@@ -72,6 +72,71 @@
         </div>
         <h1 class="sectionTitle">ALUMNOS</h1>
         <div class="studentType">
+            <h2 class="studentTypeTitle">Tutoreados</h2>
+            <div class="dataContainer">
+                <div class="dataRow">
+                    <div class="name">
+                        <h3 class="label">Nombre</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C1</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C2</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C3</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C4</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">Rol</h3>
+                    </div>
+                    <div class="compliance">
+                        <h3 class="label">Aleks</h3>
+                    </div>
+                    <div class="revisados">
+                        <h3 class="label">Revisados</h3>
+                    </div>
+                </div>
+
+                <% for (let i = 0; i < studentList.tutoreado.length; i++) { const e = studentList.tutoreado[i] %>
+
+                <div class="dataRow">
+                    <div class="name"><%= e.name %></div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c1'] %>" name="<%= e.id+'-c1' %>">
+                    </div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c2'] %>" name="<%= e.id+'-c2' %>">
+                    </div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c3'] %>" name="<%= e.id+'-c3' %>">
+                    </div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c4'] %>" name="<%= e.id+'-c4' %>">
+                    </div>
+
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="Tutoreado" style="width: 90%;" name="<%= e.id+'-role' %>">
+                    </div>
+
+
+                    <div class="compliance rowItem">
+                        <input type="checkbox" class="complianceInput" value="<%= e.aleksCompliance %>" name="<%= e.id+'-compliance' %>">
+                    </div>
+                    <div class="revisados rowItem">
+                        <input type="number" class="revisadosInput" min="0" max="9999" required
+                            oninput="checkLength(this)" value="<%= e.revisados %>" name="<%= e.id+'-revisados' %>">
+                    </div>
+                </div>
+
+                <% } %>
+
+            </div>
+        </div>
+        <div class="studentType">
             <h2 class="studentTypeTitle">Alumnos</h2>
             <div class="dataContainer">
                 <div class="dataRow">
@@ -106,20 +171,85 @@
                 <div class="dataRow">
                     <div class="name"><%= e.name %></div>
                     <div class="grade rowItem">
-                        <input type="text" class="gradeInput" value="<%= e.grades?e.grades[0]:'' %>" name="<%= e.id+'-c1' %>">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c1'] %>" name="<%= e.id+'-c1' %>">
                     </div>
                     <div class="grade rowItem">
-                        <input type="text" class="gradeInput" value="<%= e.grades?e.grades[1]:'' %>" name="<%= e.id+'-c2' %>">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c2'] %>" name="<%= e.id+'-c2' %>">
                     </div>
                     <div class="grade rowItem">
-                        <input type="text" class="gradeInput" value="<%= e.grades?e.grades[2]:'' %>" name="<%= e.id+'-c3' %>">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c3'] %>" name="<%= e.id+'-c3' %>">
                     </div>
                     <div class="grade rowItem">
-                        <input type="text" class="gradeInput" value="<%= e.grades?e.grades[3]:'' %>" name="<%= e.id+'-c4' %>">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c4'] %>" name="<%= e.id+'-c4' %>">
                     </div>
 
                     <div class="grade rowItem">
                         <input type="text" class="gradeInput" value="Alumno" style="width: 90%;" name="<%= e.id+'-role' %>">
+                    </div>
+
+
+                    <div class="compliance rowItem">
+                        <input type="checkbox" class="complianceInput" value="<%= e.aleksCompliance %>" name="<%= e.id+'-compliance' %>">
+                    </div>
+                    <div class="revisados rowItem">
+                        <input type="number" class="revisadosInput" min="0" max="9999" required
+                            oninput="checkLength(this)" value="<%= e.revisados %>" name="<%= e.id+'-revisados' %>">
+                    </div>
+                </div>
+
+                <% } %>
+
+            </div>
+        </div>
+        <div class="studentType">
+            <h2 class="studentTypeTitle">Tutores</h2>
+            <div class="dataContainer">
+                <div class="dataRow">
+                    <div class="name">
+                        <h3 class="label">Nombre</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C1</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C2</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C3</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">C4</h3>
+                    </div>
+                    <div class="grade">
+                        <h3 class="label">Rol</h3>
+                    </div>
+                    <div class="compliance">
+                        <h3 class="label">Aleks</h3>
+                    </div>
+                    <div class="revisados">
+                        <h3 class="label">Revisados</h3>
+                    </div>
+                </div>
+
+                <% for (let i = 0; i < studentList.tutor.length; i++) { const e = studentList.tutor[i] %>
+
+                <div class="dataRow">
+                    <div class="name"><%= e.name %></div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c1'] %>" name="<%= e.id+'-c1' %>">
+                    </div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c2'] %>" name="<%= e.id+'-c2' %>">
+                    </div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c3'] %>" name="<%= e.id+'-c3' %>">
+                    </div>
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="<%= e.grades['c4'] %>" name="<%= e.id+'-c4' %>">
+                    </div>
+
+                    <div class="grade rowItem">
+                        <input type="text" class="gradeInput" value="Tutor" style="width: 90%;" name="<%= e.id+'-role' %>">
                     </div>
 
 
