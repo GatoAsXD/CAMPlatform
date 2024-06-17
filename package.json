@@ -17,7 +17,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "googleapis": "^137.1.0",
-    "mongoose": "^8.4.1",
+    "mongoose": "^8.4.3",
     "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",
     "path": "^0.12.7"
