@@ -45,8 +45,8 @@
                 <div class="grafico1">
                     <canvas id='myChart'></canvas>
                     <script>
-                        const xValues = ["Aleks", "Classrom", "Revisados", "Notas"];
-                        const yValues = [55, 49, 44, 24];
+                        const xValues = ["AD", "A", "B", "C"];
+                        const yValues = [<%= userGrades[0] %>, <%= userGrades[1] %>, <%= userGrades[2] %>, <%= userGrades[3] %>];
                         const barColors = ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9"];
                         new Chart("myChart", {
                             type: "pie",
@@ -60,7 +60,7 @@
                             options: {
                                 title: {
                                     display: true,
-                                    text: "Aleks"
+                                    text: "Notas Actuales"
                                 }
                             }
                         });
@@ -77,18 +77,18 @@
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: ['C1', 'C2', 'C33', 'C4'],
+                                labels: ['C1', 'C2', 'C3', 'C4'],
                                 datasets: [
                                     {
                                         label: 'Anterior',
-                                        data: [12, 19, 3, 5,],
+                                        data: [<%= averageOldGrades[0] %>, <%= averageOldGrades[1] %>, <%= averageOldGrades[2] %>, <%= averageOldGrades[3] %>],
                                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                                         borderColor: 'rgba(255, 99, 132, 1)',
                                         borderWidth: 1
                                     },
                                     {
                                         label: 'Actual',
-                                        data: [22, 29, 5, 5,],
+                                        data: [<%= averageGrades[0] %>, <%= averageGrades[1] %>, <%= averageGrades[2] %>, <%= averageGrades[3] %>],
                                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                                         borderColor: 'rgba(54, 162, 235, 1)',
                                         borderWidth: 1
@@ -110,11 +110,23 @@
                 </div>
             </div>
         </div>
-
+        <div class="info-container5">
+          <div class="info-box">
+              <span class="revisados-promedio">Total de Revisados</span>
+              <div class="number"><%= revisadosCount%></div>
+          </div>
+          <div class="info-box2">
+              <span class="revisados-promedio">Promedio de Revisados</span> 
+              <div class="number"><%= revisadosAverage%></div>
+          </div>
+        </div>
         <!-- Lista de alumnos -->
         <div class="container2">
 
             <!-- Botón de editar -->
+            
+             <div class="container-info">
+                 
             <div class="d-flex justify-content-center">
                 <button onclick="window.location='<%= route %>'" class="EDITAR">
                     <strong>
@@ -122,6 +134,9 @@
                     </strong>
                 </button>
             </div>
+             </div>
+
+            
             <h1 class="LIST">ALUMNOS</h1>
             <h3 class="LIST">Tutoreados</h3>
             <% for (let i = 0; i < studentList.tutoreado.length; i++) { const e = studentList.tutoreado[i] %>
